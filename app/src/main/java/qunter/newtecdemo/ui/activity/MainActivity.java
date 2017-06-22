@@ -1,8 +1,12 @@
 package qunter.newtecdemo.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.youth.banner.Banner;
@@ -12,8 +16,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 import qunter.newtecdemo.R;
 import qunter.newtecdemo.entity.NewsEntity;
+import qunter.newtecdemo.ui.adapter.NewsAdapter;
 import qunter.newtecdemo.ui.base.BaseActivity;
 import qunter.newtecdemo.util.ComApi;
 import retrofit2.Call;
@@ -26,6 +32,19 @@ public class MainActivity extends BaseActivity {
     Banner banner;
     @BindView(R.id.main_recycler)
     RecyclerView recyclerView;
+    private final int GETDATA=0x00;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==GETDATA){
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                NewsAdapter adapter = new NewsAdapter(getApplicationContext(),storyEntity,recyclerView);
+                recyclerView.setAdapter(adapter);
+            }
+        }
+    };
     private List<NewsEntity.StoriesBean> storyEntity = new ArrayList<NewsEntity.StoriesBean>();
     @Override
     protected void initVariablesAndService() {
@@ -40,6 +59,24 @@ public class MainActivity extends BaseActivity {
     }
     //开始请求
     public void start() {
+        ComApi.getInstance().getData()
+                .doOnNext(new Consumer<NewsEntity>() {
+                    @Override
+                    public void accept(NewsEntity newsEntity) throws Exception {
+                        storyEntity = newsEntity.getStories();
+                        handler.sendEmptyMessage(GETDATA);
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                    }
+                })
+                .subscribe();
+    }
+    //Retrofit开始请求
+    /*
+    public void start() {
         Call<NewsEntity> call = ComApi.getInstance().getData();
         call.enqueue(new Callback<NewsEntity>() {//异步请求
             @Override
@@ -47,17 +84,8 @@ public class MainActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        /*
-                        if (response.isSuccessful() && response.body().isSuccess()) {
-                            resultTv.setText(response.body().get().getUpdateContent());
-                        } else {
-                            resultTv.setText("失败");
-                        }
-                        */
                         storyEntity = response.body().getStories();
-                        Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_SHORT).show();
-                        Log.e("onResponse", storyEntity.get(1).getTitle());
-                        Toast.makeText(getApplicationContext(),"成功了，老铁",Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(GETDATA);
                     }
                 });
             }
@@ -73,4 +101,5 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+    */
 }

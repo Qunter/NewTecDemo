@@ -1,7 +1,10 @@
 package qunter.newtecdemo.util;
 
+import io.reactivex.Flowable;
 import qunter.newtecdemo.entity.NewsEntity;
 import retrofit2.Call;
+
+import static qunter.newtecdemo.util.BaseComApi.create;
 
 public class ComApi {
 
@@ -20,7 +23,13 @@ public class ComApi {
     private ComApi() {
         mComInterface = NetClient.newRetrofit().create(ComInterface.class);
     }
+    /*
     public Call<NewsEntity> getData() {
         return mComInterface.getNews();
+    }
+    */
+    public Flowable<NewsEntity> getData() {
+        return create(mComInterface.getNews())
+                .compose(BaseComApi.<NewsEntity>background());
     }
 }

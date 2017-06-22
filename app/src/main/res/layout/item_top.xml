@@ -33,23 +33,16 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:gravity="center"
                     android:id="@+id/item_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:ellipsize="end"
-                    android:maxLines="3"
-                    android:textSize="18sp" />
+                    android:maxLines="2"
+                    android:textSize="20sp" />
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:scaleType="centerCrop"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

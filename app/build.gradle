@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
     defaultConfig {
         applicationId "qunter.newtecdemo"
         minSdkVersion 21
@@ -43,10 +46,8 @@ dependencies {
     //http拦截
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
     //rxJava+rxAndroid依赖
-    //compile 'io.reactivex.rxjava2:rxjava:2.0.7'
-    //compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     //banner图片轮播依赖
     compile 'com.youth.banner:banner:1.4.9'
 }
