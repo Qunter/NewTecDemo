@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 
 public class NetClient {
     //暂时放在这里
-    private static final String URL = "https://news-at.zhihu.com/api/4/theme/";
+    private static final String URL = "https://news-at.zhihu.com/api/4/";
 
     /**
      * 获取Retrofit适配器。

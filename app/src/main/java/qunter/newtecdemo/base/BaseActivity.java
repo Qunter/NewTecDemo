@@ -19,7 +19,6 @@ public abstract class BaseActivity<V,P extends BasePresenter<V>> extends AppComp
     }
     /**
      * 创建一个与之关联的Presenter
-     * @return
      */
     protected abstract P  createPresenter();
     @Override

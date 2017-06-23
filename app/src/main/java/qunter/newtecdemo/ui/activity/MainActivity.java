@@ -1,8 +1,11 @@
 package qunter.newtecdemo.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 
 import com.youth.banner.Banner;
 
@@ -39,10 +42,20 @@ public class MainActivity extends BaseActivity<IMainView,NewsPresenter> implemen
      * 初始化recycleView
      */
     @Override
-    public void initRecycleView(List<NewsEntity.StoriesBean> storyEntity) {
+    public void initRecycleView(final List<NewsEntity.StoriesBean> storyEntity) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         NewsAdapter adapter = new NewsAdapter(getApplicationContext(),storyEntity,recyclerView);
+        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if(position!=0){
+                    Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+                    intent.putExtra("id",storyEntity.get(position).getId());
+                    startActivity(intent);
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 }
