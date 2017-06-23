@@ -4,11 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.youth.banner.Banner
-        android:id="@+id/main_banner"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recycler"
         android:layout_width="match_parent"
