@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
